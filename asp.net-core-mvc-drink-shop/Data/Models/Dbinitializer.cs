@@ -17,6 +17,7 @@ namespace asp_net_core_mvc_drink_shop.Data.Models
                 applicationBuilder.GetRequiredService<AppDbContext>();
             if (context.Database.GetPendingMigrations().Any())
             {
+                Console.WriteLine("Starting Migrations");
                 context.Database.Migrate();
                 Console.WriteLine("Migrated");
             }
