@@ -25,14 +25,14 @@ namespace asp_net_core_mvc_drink_shop
 
         public Startup(IHostEnvironment hostEnvironment)
         {
-            _configurationRoot = new ConfigurationBuilder().SetBasePath(hostEnvironment.ContentRootPath).AddJsonFile("appsettings.json").Build();
+            _configurationRoot = new ConfigurationBuilder().SetBasePath(hostEnvironment.ContentRootPath).AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(_configurationRoot.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -66,7 +66,6 @@ namespace asp_net_core_mvc_drink_shop
             services.AddMemoryCache();
             services.AddSession();
             // services.AddMvc(option => option.EnableEndpointRouting = false);
-            services.AddRazorPages();
             // services.AddControllers();
         }
 
@@ -78,6 +77,12 @@ namespace asp_net_core_mvc_drink_shop
             {
                 app.UseDeveloperExceptionPage();
 
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseHsts();
+                app.UseHttpsRedirection();
             }
 
             app.UseStatusCodePages();

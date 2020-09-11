@@ -1,0 +1,22 @@
+version: "3"
+services:
+  docker-host:
+    image: qoomon/docker-host
+    cap_add: ["NET_ADMIN", "NET_RAW"]
+    restart: unless-stopped
+  asp-drinks-mvc:
+    restart: unless-stopped
+    tty: true
+    image: axmouth/asp-drinks-mvc:latest
+    container_name: asp-drinks-mvc
+    ports:
+      - "6001:80"
+    env_file:
+      - ./.env
+    environment:
+      - WEBSITE_URL
+      - ConnectionStrings__DefaultConnection
+    volumes:
+      - asp-drinks-mvc-files:/var/lib/axmouth/asp-drinks-mvc/static-assets:rw
+volumes:
+  asp-drinks-mvc-files:
