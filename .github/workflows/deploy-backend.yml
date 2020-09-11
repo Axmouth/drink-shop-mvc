@@ -1,4 +1,4 @@
-name: Publish Docker image of axmouth.dev Backend to GHCR then update the image version on server
+name: Publish Docker image to GHCR then update the image version on server
 
 on: [push]
 
