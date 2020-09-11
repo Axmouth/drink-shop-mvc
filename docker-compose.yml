@@ -7,7 +7,7 @@ services:
   asp-drinks-mvc:
     restart: unless-stopped
     tty: true
-    image: axmouth/asp-drinks-mvc:latest
+    image: ghcr.io/axmouth/asp-drinks-mvc:latest
     container_name: asp-drinks-mvc
     ports:
       - "6001:80"
