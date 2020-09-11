@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace asp_net_core_mvc_drink_shop
 {
@@ -104,6 +105,14 @@ namespace asp_net_core_mvc_drink_shop
             // app.UseMvcWithDefaultRoute();
 
             Dbinitializer.Seed(serviceProvider);
+        }
+
+        public void ApplyMigrations(AppDbContext context)
+        {
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }

@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace asp_net_core_mvc_drink_shop.Data.Models
 {
@@ -13,6 +15,10 @@ namespace asp_net_core_mvc_drink_shop.Data.Models
         {
             AppDbContext context =
                 applicationBuilder.GetRequiredService<AppDbContext>();
+            if (context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
 
             if (!context.Categories.Any())
             {
