@@ -18,6 +18,7 @@ namespace asp_net_core_mvc_drink_shop.Data.Models
             if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
+                Console.WriteLine("Migrated");
             }
 
             if (!context.Categories.Any())
