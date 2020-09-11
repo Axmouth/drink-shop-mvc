@@ -20,7 +20,7 @@ jobs:
       - name: Tag final image
         run: docker tag ghcr.io/axmouth/asp-drinks-mvc latest
       - name: Push builder image to GHCR
-        run: docker push ghcr.io/axmouth/axmouth/asp-drinks-mvc || true
+        run: docker push ghcr.io/axmouth/asp-drinks-mvc || true
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
