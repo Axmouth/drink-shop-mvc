@@ -26,6 +26,7 @@ namespace asp_net_core_mvc_drink_shop
 
         public Startup(IHostEnvironment hostEnvironment)
         {
+            Console.WriteLine("This be a test");
             _configurationRoot = new ConfigurationBuilder().SetBasePath(hostEnvironment.ContentRootPath).AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
         }
 
@@ -83,7 +84,6 @@ namespace asp_net_core_mvc_drink_shop
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
-                // app.UseHttpsRedirection();
             }
 
             app.UseStatusCodePages();
@@ -105,14 +105,6 @@ namespace asp_net_core_mvc_drink_shop
             // app.UseMvcWithDefaultRoute();
 
             Dbinitializer.Seed(serviceProvider);
-        }
-
-        public void ApplyMigrations(AppDbContext context)
-        {
-            if (context.Database.GetPendingMigrations().Any())
-            {
-                context.Database.Migrate();
-            }
         }
     }
 }
