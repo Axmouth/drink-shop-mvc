@@ -83,7 +83,7 @@ namespace asp_net_core_mvc_drink_shop
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
-                app.UseHttpsRedirection();
+                // app.UseHttpsRedirection();
             }
 
             app.UseStatusCodePages();
