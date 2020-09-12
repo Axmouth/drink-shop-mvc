@@ -26,7 +26,6 @@ namespace asp_net_core_mvc_drink_shop
 
         public Startup(IHostEnvironment hostEnvironment)
         {
-            Console.WriteLine("This be a test");
             _configurationRoot = new ConfigurationBuilder().SetBasePath(hostEnvironment.ContentRootPath).AddJsonFile("appsettings.json").AddEnvironmentVariables().Build();
         }
 
