@@ -19,8 +19,6 @@ jobs:
         run: docker build . --file asp.net-core-mvc-drink-shop/Dockerfile --tag ghcr.io/axmouth/asp-drinks-mvc --cache-from=ghcr.io/axmouth/asp-drinks-mvc
       #- name: Tag image
       #  run: docker tag ghcr.io/axmouth/asp-drinks-mvc latest
-      - name: Push image to GHCR
-        run: docker push ghcr.io/axmouth/asp-drinks-mvc || true
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -47,3 +45,5 @@ jobs:
           SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: DOCKER_HOST="ssh://$SERVER_USERNAME@$SERVER_IP:$SSH_PORT" docker-compose up --remove-orphans -d
+      - name: Push image to GHCR
+        run: docker push ghcr.io/axmouth/asp-drinks-mvc || true
