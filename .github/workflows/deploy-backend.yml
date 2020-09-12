@@ -13,12 +13,14 @@ jobs:
 
       - name: Login to Github Container Registry with Docker
         run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      #- name: Pull the previous version of the Docker image from Github Container Registry
-      #  run: docker pull ghcr.io/axmouth/asp-drinks-mvc || true
+      - name: Pull the previous version of the Docker image from Github Container Registry
+        run: docker pull ghcr.io/axmouth/asp-drinks-mvc || true
       - name: Build the new version of the image
         run: docker build . --file asp.net-core-mvc-drink-shop/Dockerfile --tag ghcr.io/axmouth/asp-drinks-mvc --cache-from=ghcr.io/axmouth/asp-drinks-mvc
-      #- name: Tag image
-      #  run: docker tag ghcr.io/axmouth/asp-drinks-mvc latest
+      - name: Tag image
+        run: docker tag ghcr.io/axmouth/asp-drinks-mvc latest
+      - name: Push image to GHCR
+        run: docker push ghcr.io/axmouth/asp-drinks-mvc || true
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
         with:
@@ -26,6 +28,24 @@ jobs:
           known_hosts: ${{ secrets.KNOWN_HOSTS }}
       - name: Create empty .env file
         run: touch .env
+      - name: Use docker-compose to remotely stop containers
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: DOCKER_HOST="ssh://$SERVER_USERNAME@$SERVER_IP:$SSH_PORT" docker-compose stop
+      - name: Use docker-compose to remotely remove containers
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: DOCKER_HOST="ssh://$SERVER_USERNAME@$SERVER_IP:$SSH_PORT" docker-compose rm -f
+      - name: Use docker-compose to remotely pull new containers
+        env:
+          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+        run: DOCKER_HOST="ssh://$SERVER_USERNAME@$SERVER_IP:$SSH_PORT" docker-compose pull
       - name: Use docker-compose to deploy remotely
         env:
           CAPTCHA_SECRET: ${{ secrets.CAPTCHA_SECRET }}
@@ -45,5 +65,3 @@ jobs:
           SERVER_USERNAME: ${{ secrets.SERVER_USERNAME }}
           SSH_PORT: ${{ secrets.SSH_PORT }}
         run: DOCKER_HOST="ssh://$SERVER_USERNAME@$SERVER_IP:$SSH_PORT" docker-compose up --remove-orphans -d
-      - name: Push image to GHCR
-        run: docker push ghcr.io/axmouth/asp-drinks-mvc || true
