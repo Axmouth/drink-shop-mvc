@@ -13,8 +13,8 @@ jobs:
 
       - name: Login to Github Container Registry with Docker
         run: echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
-      - name: Pull the previous version of the Docker image from Github Container Registry
-        run: docker pull ghcr.io/axmouth/asp-drinks-mvc || true
+      #- name: Pull the previous version of the Docker image from Github Container Registry
+      #  run: docker pull ghcr.io/axmouth/asp-drinks-mvc || true
       - name: Build the new version of the image
         run: docker build . --file asp.net-core-mvc-drink-shop/Dockerfile --tag ghcr.io/axmouth/asp-drinks-mvc --cache-from=ghcr.io/axmouth/asp-drinks-mvc
       #- name: Tag image
