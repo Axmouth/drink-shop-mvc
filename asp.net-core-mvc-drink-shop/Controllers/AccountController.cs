@@ -66,7 +66,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
                     }
                 }
             }
-            ModelState.AddModelError("error1", "Username/Password combination not found.");
+            ModelState.AddModelError("", "Username/Password combination not found.");
             return View(loginViewModel);
 
         }
@@ -107,6 +107,18 @@ namespace asp_net_core_mvc_drink_shop.Controllers
             await _signInManager.SignOutAsync();
             ViewBag.Title = "ASP.NET Drinks - Logout";
             return RedirectToAction("Index", "Home");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Profile()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Orders()
+        {
+            return View();
         }
     }
 }

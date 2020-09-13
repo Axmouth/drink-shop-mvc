@@ -9,6 +9,6 @@
 <div class="row">
     @foreach (Drink drink in Model.PreferredDrinks)
     {
-        @await Html.PartialAsync("DrinksSummary", drink)
+        @await Html.PartialAsync("PreferredDrinksSummary", drink)
     }
 </div>

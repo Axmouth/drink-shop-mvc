@@ -6,12 +6,20 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
-          method="post" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item"><a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-    </form>
+    <li class="nav-item dropdown">
+        <a asp-controller="Account" asp-action="Profile" class="nav-link dropdown-toggle @(Context.Request.Path.Value.ToLower().StartsWith("/account") ? "active " : "" )" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @User.Identity.Name
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <a class="dropdown-item @(Context.Request.Path.Value.ToLower().StartsWith("/account/profile") ? "active " : "" )" asp-controller="Account" asp-action="Profile">My Profile</a>
+            <a class="dropdown-item @(Context.Request.Path.Value.ToLower().StartsWith("/account/orders") ? "active " : "" )" asp-controller="Account" asp-action="Orders">My Orders</a>
+            <div class="dropdown-divider"></div>
+            <form asp-area="" asp-controller="Account" asp-action="Logout" id="logoutForm"
+                  method="post" class="navbar-right">
+                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </form>
+        </div>
+    </li>
 }
 else
 {

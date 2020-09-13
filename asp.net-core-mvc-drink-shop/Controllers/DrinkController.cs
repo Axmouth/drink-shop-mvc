@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace asp_net_core_mvc_drink_shop.Controllers
 {
@@ -50,6 +49,37 @@ namespace asp_net_core_mvc_drink_shop.Controllers
             ViewBag.Title = "ASP.NET Drinks - " + currentCategory;
 
             return View(drinkListViewModel);
+        }
+
+        public ViewResult Details(int drinkId)
+        {
+            var drink = _drinkRepository.Drinks.FirstOrDefault(d => d.DrinkId == drinkId);
+            if (drink == null)
+            {
+                return View("~/Views/Error/Error.cshtml");
+            }
+            ViewBag.Title = "ASP.NET Drinks - " + drink.Name;
+            return View(drink);
+        }
+        
+        public ViewResult Search(string searchString)
+        {
+            string _searchString = searchString;
+            IEnumerable<Drink> drinks;
+            string currentCategory = string.Empty;
+
+            if (string.IsNullOrEmpty(_searchString))
+            {
+                ViewBag.Title = "ASP.NET Drinks - Search";
+                drinks = _drinkRepository.Drinks.OrderBy(p => p.DrinkId);
+            }
+            else
+            {
+                ViewBag.Title = "ASP.NET Drinks - Search: " +  _searchString;
+                drinks = _drinkRepository.Drinks.Where(p => p.Name.ToLower().Contains(_searchString.ToLower()) || p.ShortDescription.ToLower().Contains(_searchString.ToLower()));
+            }
+
+            return View("~/Views/Drink/List.cshtml", new DrinksListViewModel { Drinks = drinks, CurrentCategory = "All drinks" });
         }
     }
 }

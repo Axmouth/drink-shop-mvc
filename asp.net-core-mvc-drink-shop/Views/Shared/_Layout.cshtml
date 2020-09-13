@@ -11,13 +11,13 @@
     <link rel="shortcut icon" type="image/x-icon" href="~/favico.png" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark text-light navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-dark fixed-top">
         <a class="navbar-brand" href="/">ASP.NET Drinks</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item @(Context.Request.Path.Value.ToLower().Equals("/") ? "active " : "" )">
                     <a class="nav-link" asp-controller="Home" asp-action="Index">Home <span class="sr-only">(current)</span></a>
                 </li>
@@ -25,9 +25,16 @@
                 <li class="nav-item @(Context.Request.Path.Value.ToLower().StartsWith("/contact") ? "active " : "" )">
                     <a class="nav-link" asp-controller="Contact" asp-action="Index">Contact Us</a>
                 </li>
+                <li class="nav-item @(Context.Request.Path.Value.ToLower().StartsWith("/about") ? "active " : "" )">
+                    <a class="nav-link" asp-controller="About" asp-action="Index">About</a>
+                </li>
                 @await Component.InvokeAsync("ShoppingCartSummary")
                 @await Html.PartialAsync("LoginPartial")
             </ul>
+            <form class="form-inline my-2 my-lg-0" asp-controller="Drink" asp-action="Search" method="get">
+                <input type="text" class="form-control" placeholder="Search for a drink" name="searchString" value="@ViewData["searchString"]">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
         </div>
     </nav>
     <div class="container body-content main-content">
@@ -37,6 +44,7 @@
     <footer>
         <p><a class="ml-2" target="_blank" href="https://axmouth.dev">&copy; 2019 - Giorgos Nikolopoulos</a></p>
     </footer>
+    @RenderSection("scripts", required: false)
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>

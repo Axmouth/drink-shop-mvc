@@ -53,3 +53,23 @@ a.remove:hover {
 .carousel {
     margin-top: 2em;
 }
+
+.caption h4 {
+    white-space: nowrap;
+    white-space: nowrap;
+}
+
+.thumbnail img {
+    height: 10em;
+    width: auto;
+}
+
+.thumbnail .caption-full {
+    padding: 9px;
+    color: #333;
+}
+
+.details-img {
+    height: 17em;
+    width: auto;
+}
