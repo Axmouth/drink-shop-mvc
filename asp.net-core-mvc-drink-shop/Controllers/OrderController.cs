@@ -23,6 +23,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
+            ViewBag.Title = "ASP.NET Drinks - Checkout";
             return View();
         }
 
@@ -30,6 +31,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         [HttpPost]
         public IActionResult Checkout(Order order)
         {
+            ViewBag.Title = "ASP.NET Drinks - Checkout";
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
 
@@ -44,12 +46,13 @@ namespace asp_net_core_mvc_drink_shop.Controllers
                 _shoppingCart.ClearCart();
                 return RedirectToAction("CheckoutComplete");
             }
-
             return View(order);
         }
+
         public IActionResult CheckoutComplete()
         {
             ViewBag.CheckoutCompleteMessage = "Thanks for your order!";
+            ViewBag.Title = "ASP.NET Drinks - Checkout Complete";
             return View();
         }
     }

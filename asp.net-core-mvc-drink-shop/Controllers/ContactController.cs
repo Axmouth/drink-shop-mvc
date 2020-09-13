@@ -10,6 +10,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
     {
         public ViewResult Index()
         {
+            ViewBag.Title = "ASP.NET Drinks - Contact Us";
             return View();
         }
     }

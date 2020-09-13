@@ -23,37 +23,37 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         {
             var items = _shoppingCart.GetShoppingCartItems();
             _shoppingCart.ShoppingCartItems = items;
+            ViewBag.Title = "ASP.NET Drinks - Shopping Cart";
 
             var sCVM = new ShoppingCartViewModel
             {
                 ShoppingCart = _shoppingCart,
                 ShoppingCartTotal = _shoppingCart.GetShoppingCartTotal()
             };
-
             return View(sCVM);
         }
 
         public RedirectToActionResult AddToShoppingCart(int drinkId)
         {
             var selectedDrink = _drinkRepository.Drinks.FirstOrDefault(p => p.DrinkId == drinkId);
+            ViewBag.Title = "ASP.NET Drinks - Add To Shopping Cart";
 
             if (selectedDrink != null)
             {
                 _shoppingCart.AddToCart(selectedDrink, 1);
             }
-
             return RedirectToAction("Index");
         }
 
         public RedirectToActionResult RemoveFromShoppingCart(int drinkId)
         {
             var selectedDrink = _drinkRepository.Drinks.FirstOrDefault(p => p.DrinkId == drinkId);
+            ViewBag.Title = "ASP.NET Drinks - Remove From Shopping Cart";
 
             if (selectedDrink != null)
             {
                 _shoppingCart.RemoveFromCart(selectedDrink);
             }
-
             return RedirectToAction("Index");
         }
     }

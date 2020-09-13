@@ -1,18 +1,14 @@
-﻿<li class="dropdown">
-    <a asp-controller="Drink"
-       asp-action="Index"
-       class="dropdown-toggle" data-toggle="dropdown">Drinks<b class="caret"></b></a>
-    <ul class="dropdown-menu">
+﻿<li class="nav-item dropdown">
+    <a asp-controller="Drink" asp-action="List" class="nav-link dropdown-toggle @(Context.Request.Path.Value.ToLower().StartsWith("/drink") ? "active " : "" )" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Drinks
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         @foreach (var category in Model)
         {
-            <li>
-                <a asp-controller="Drink" asp-action="List"
-                   asp-route-categoryName="@category.CategoryName">@category.CategoryName</a>
-            </li>
+            <a class="dropdown-item @(Context.Request.Path.Value.ToLower().StartsWith("/drink/list/" + category.CategoryName.ToLower()) ? "active " : "" )" asp-controller="Drink" asp-action="List"
+               asp-route-categoryName="@category.CategoryName">@category.CategoryName</a>
         }
-        <li class="divider"></li>
-        <li>
-            <a asp-controller="Drink" asp-action="List" asp-route-category="">View all drinks</a>
-        </li>
-    </ul>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item @(Context.Request.Path.Value.ToLower().Equals("/drink") || Context.Request.Path.Value.ToLower().Equals("/drink/") ? "active " : "" )" asp-controller="Drink" asp-action="List" asp-route-categoryName="">View all drinks</a>
+    </div>
 </li>

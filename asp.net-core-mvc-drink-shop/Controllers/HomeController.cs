@@ -22,7 +22,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
             {
                 PreferredDrinks = _drinkRepository.PreferredDrinks
             };
-
+            ViewBag.Title = "ASP.NET Drinks";
             return View(homeViewModel);
         }
     }

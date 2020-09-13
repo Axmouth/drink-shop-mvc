@@ -24,6 +24,15 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
         public IActionResult Login(string returnUrl)
         {
+            ViewBag.Title = "ASP.NET Drinks - Login";
+            if ((HttpContext.User != null) && HttpContext.User.Identity.IsAuthenticated)
+            {
+                if (string.IsNullOrEmpty(returnUrl))
+                {
+                    returnUrl = "/";
+                }
+                return Redirect(returnUrl);
+            }
             return View(new LoginViewModel()
             {
                 ReturnUrl = returnUrl
@@ -33,6 +42,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
+            ViewBag.Title = "ASP.NET Drinks - Login";
             if (!ModelState.IsValid)
             {
                 return View(loginViewModel);
@@ -63,19 +73,26 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
         public IActionResult Register()
         {
+            ViewBag.Title = "ASP.NET Drinks - Register";
+            if ((HttpContext.User != null) && HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Redirect("/");
+            }
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(LoginViewModel loginViewModel)
         {
+            ViewBag.Title = "ASP.NET Drinks - Register";
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser() { UserName = loginViewModel.UserName };
+                var user = new IdentityUser() { UserName = loginViewModel.UserName, Email = loginViewModel.UserName };
                 var result = await _userManager.CreateAsync(user, loginViewModel.Password);
 
                 if (result.Succeeded)
                 {
+                    _ = await _signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false);
                     return RedirectToAction("Index", "Home");
                 }
             }
@@ -88,6 +105,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+            ViewBag.Title = "ASP.NET Drinks - Logout";
             return RedirectToAction("Index", "Home");
         }
     }

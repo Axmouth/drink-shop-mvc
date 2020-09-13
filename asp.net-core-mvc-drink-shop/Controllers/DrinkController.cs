@@ -47,6 +47,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
             }
             DrinkListViewModel drinkListViewModel = new DrinkListViewModel() { Drinks = drinks, CurrentCategory = currentCategory };
+            ViewBag.Title = "ASP.NET Drinks - " + currentCategory;
 
             return View(drinkListViewModel);
         }
