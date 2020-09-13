@@ -11,20 +11,23 @@
                 <th class="text-right">Price</th>
                 <th class="text-right">Subtotal</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var line in Model.ShoppingCart.ShoppingCartItems)
             {
-                <tr>
-                    <td class="text-center">@line.Amount</td>
-                    <td class="text-left">@line.Drink.Name</td>
-                    <td class="text-right">@line.Drink.Price.ToString("c")</td>
-                    <td class="text-right">
-                        @((line.Amount * line.Drink.Price).ToString("c"))
-                    </td>
-                    <td class="text-center"><a class="fa fa-remove text-danger remove" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-drinkId="@line.Drink.DrinkId"></a></td>
-                </tr>
+            <tr>
+                <td class="text-center">@line.Amount</td>
+                <td class="text-left">@line.Drink.Name</td>
+                <td class="text-right">@line.Drink.Price.ToString("c")</td>
+                <td class="text-right">
+                    @((line.Amount * line.Drink.Price).ToString("c"))
+                </td>
+                <td class="text-center"><a class="fa fa-plus text-primary add" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-drinkId="@line.Drink.DrinkId"></a></td>
+
+                <td class="text-center"><a class="fa fa-remove text-danger remove" asp-controller="ShoppingCart" asp-action="RemoveFromShoppingCart" asp-route-drinkId="@line.Drink.DrinkId"></a></td>
+            </tr>
             }
         </tbody>
         <tfoot>

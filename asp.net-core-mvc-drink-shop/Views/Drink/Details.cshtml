@@ -1,9 +1,10 @@
-﻿<div class="container">
+﻿@model Drink
 
+<div class="container">
     <div class="">
         <div class="card row">
             <div class="text-center view overlay hm-white-slight">
-                <img src="@Model.ImageThumbnailUrl" class="img-fluid details-img" alt="">
+                <img src="@Model.ImageUrl" class="img-fluid details-img" alt="">
                 <a href="#">
                     <div class="mask waves-effect waves-light"></div>
                 </a>
@@ -13,16 +14,16 @@
                 <h4 class="card-title">@Model.Name</h4>
                 <!--Text-->
                 <p class="card-text">@Model.LongDescription.</p>
-                <a asp-controller="Drink" asp-action="List" class="btn btn-primary ml-3">Show all drinks</a>
-                <div class="add-to-cart ml-3 mt-3">
-                    <p class="button">
-                        <a class="btn btn-success" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-drinkId="@Model.DrinkId">
-                            Add to cart
+                <div class="row">
+                    <div class="btn-group pull-right ml-auto">
+                        <a asp-controller="Drink" asp-action="List" class="btn btn-default ml-3">Show all drinks</a>
+                        <a class="btn btn-success" id="cart-button" asp-controller="ShoppingCart" asp-action="AddToShoppingCart" asp-route-drinkId="@Model.DrinkId">
+                            Add @Model.Name to cart
                         </a>
-                    </p>
+                    </div>
+                    <h3 class="pull-right ml-3 mr-3">@Model.Price.ToString("c")</h3>
                 </div>
-                <h3 class="pull-right ml-3">@Model.Price.ToString("c")</h3>
             </div>
         </div>
     </div>
-</div> 
+</div>
