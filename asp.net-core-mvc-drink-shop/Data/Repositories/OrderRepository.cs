@@ -43,12 +43,12 @@ namespace asp_net_core_mvc_drink_shop.Data.Repositories
 
         public async Task<IEnumerable<Order>> GetUserOrders(string userId)
         {
-            return await _appDbContext.Orders.Include(o => o.OrderLines).Where(o => o.UserId == userId).OrderByDescending(o => o.OrderPlaced).ToListAsync();
+            return await _appDbContext.Orders.Include(o => o.OrderLines).ThenInclude(ol => ol.Drink).Where(o => o.UserId == userId).OrderByDescending(o => o.OrderPlaced).ToListAsync();
         }
 
         public async Task<Order> GetOrderById(int orderId)
         {
-            return await _appDbContext.Orders.Include(o => o.OrderLines).Where(o => o.OrderId == orderId).SingleOrDefaultAsync();
+            return await _appDbContext.Orders.Include(o => o.OrderLines).ThenInclude(ol => ol.Drink).Where(o => o.OrderId == orderId).SingleOrDefaultAsync();
         }
     }
 }
