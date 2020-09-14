@@ -9,5 +9,9 @@ namespace asp_net_core_mvc_drink_shop.Data.interfaces
     public interface IOrderRepository
     {
         void CreateOrder(Order order);
+
+        Task<IEnumerable<Order>> GetUserOrders(string userId);
+
+        Task<Order> GetOrderById(int orderId);
     }
 }

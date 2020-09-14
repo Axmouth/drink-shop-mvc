@@ -18,6 +18,7 @@ using System.Globalization;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Localization;
 using System.Threading.Tasks;
+using Identity.Models;
 
 namespace asp_net_core_mvc_drink_shop
 {
@@ -36,7 +37,7 @@ namespace asp_net_core_mvc_drink_shop
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AppDbContext>(options => options.UseNpgsql(_configurationRoot.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
             services.AddRazorPages();
 
             services.Configure<IdentityOptions>(options =>
@@ -64,6 +65,7 @@ namespace asp_net_core_mvc_drink_shop
             services.AddTransient<IDrinkRepository, DrinkRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderDetailRepository, OrderDetailRepository>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped(sp => ShoppingCart.GetCart(sp));

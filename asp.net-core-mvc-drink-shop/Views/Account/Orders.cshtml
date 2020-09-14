@@ -1,5 +1,61 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
+@model OrderListViewModel
+
+<div class="row">
+    <div class="col-md-3 ">
+        <div class="list-group ">
+            <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="Profile">My Profile</a>
+            <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="Settings">Account Settings</a>
+            <a class="list-group-item list-group-item-action active" asp-controller="Account" asp-action="Orders">My Orders</a>
+
+
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Your Orders</h4>
+                        <hr>
+
+                        <table class="table table-bordered table-striped table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Order Id</th>
+                                    <th>Order Items</th>
+                                    <th class="text-right">Date Ordered</th>
+                                    <th class="text-right">Subtotal</th>
+                                    <th class="text-right">Address</th>
+                                    <th class="text-right">Zip</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.Orders)
+                                {
+                                <tr>
+                                    <td class="text-center"><a asp-controller="Account" asp-action="OrderDetails" asp-route-orderId="@order.OrderId">@order.OrderId</a></td>
+                                    <td class="text-center">@order.OrderLines?.Count</td>
+                                    <td class="text-center">@order.OrderPlaced</td>
+                                    <td class="text-center">@order.OrderTotal</td>
+                                    <td class="text-center">@order.AddressLine1</td>
+                                    <td class="text-center">@order.ZipCode</td>
+                                </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

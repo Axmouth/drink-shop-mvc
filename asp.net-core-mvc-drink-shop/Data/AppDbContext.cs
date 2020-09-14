@@ -1,4 +1,5 @@
 ﻿using asp_net_core_mvc_drink_shop.Data.Models;
+using Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace asp_net_core_mvc_drink_shop.Data
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser>
+    public class AppDbContext : IdentityDbContext<AppUser>
 
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace asp_net_core_mvc_drink_shop.Data.interfaces
 {
-    interface IOrderDetailRepository
+    public interface IOrderDetailRepository
     {
     }
 }

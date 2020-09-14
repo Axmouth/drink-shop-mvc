@@ -1,5 +1,6 @@
 ﻿using asp_net_core_mvc_drink_shop.Data.interfaces;
 using asp_net_core_mvc_drink_shop.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,7 @@ namespace asp_net_core_mvc_drink_shop.Data.Repositories
         public void CreateOrder(Order order)
         {
             order.OrderPlaced = DateTime.Now;
+            order.OrderTotal = 0;
             _appDbContext.Orders.Add(order);
             _appDbContext.SaveChanges();
             var shoppingCartItems  = _shoppingCart.ShoppingCartItems;
@@ -34,8 +36,19 @@ namespace asp_net_core_mvc_drink_shop.Data.Repositories
                     Price = item.Drink.Price
                 };
                 _appDbContext.OrderDetails.Add(orderDetail);
+                order.OrderTotal += orderDetail.Price * orderDetail.Amount;
             }
             _appDbContext.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Order>> GetUserOrders(string userId)
+        {
+            return await _appDbContext.Orders.Include(o => o.OrderLines).Where(o => o.UserId == userId).OrderByDescending(o => o.OrderPlaced).ToListAsync();
+        }
+
+        public async Task<Order> GetOrderById(int orderId)
+        {
+            return await _appDbContext.Orders.Include(o => o.OrderLines).Where(o => o.OrderId == orderId).SingleOrDefaultAsync();
         }
     }
 }

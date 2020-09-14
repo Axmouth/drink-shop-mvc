@@ -1,11 +1,11 @@
-﻿@model MyProfileViewModel
+﻿@model OrderDetailsViewModel
 
 <div class="row">
     <div class="col-md-3 ">
         <div class="list-group ">
-            <a class="list-group-item list-group-item-action active" asp-controller="Account" asp-action="Profile">My Profile</a>
+            <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="Profile">My Profile</a>
             <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="Settings">Account Settings</a>
-            <a class="list-group-item list-group-item-action" asp-controller="Account" asp-action="Orders">My Orders</a>
+            <a class="list-group-item list-group-item-action active" asp-controller="Account" asp-action="Orders">My Orders</a>
 
 
         </div>
@@ -15,14 +15,13 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <h4>Your Profile</h4>
+                        <h4>Order @Model.Order.OrderId</h4>
                         <hr>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <p>Username: @Model.UserName</p>
-                        <p>Email: @Model.UserName</p>
+                        <h1>WIP</h1>
                     </div>
                 </div>
 

@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using asp_net_core_mvc_drink_shop.Data.interfaces;
 using asp_net_core_mvc_drink_shop.Data.Models;
+using Identity.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace asp_net_core_mvc_drink_shop.Controllers
@@ -13,18 +15,33 @@ namespace asp_net_core_mvc_drink_shop.Controllers
     {
         private readonly IOrderRepository _orderRepository;
         private readonly ShoppingCart _shoppingCart;
+        private readonly UserManager<AppUser> _userManager;
 
-        public OrderController(IOrderRepository orderRepository, ShoppingCart shoppingCart)
+        public OrderController(IOrderRepository orderRepository, ShoppingCart shoppingCart, UserManager<AppUser> userManager)
         {
             _orderRepository = orderRepository;
             _shoppingCart = shoppingCart;
+            _userManager = userManager;
         }
-        
+
         [Authorize]
-        public IActionResult Checkout()
+        public async Task<IActionResult> CheckoutAsync()
         {
             ViewBag.Title = "ASP.NET Drinks - Checkout";
-            return View();
+            var user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
+            var order = new Order
+            {
+                AddressLine1 = user.AddressLine,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                City = user.City,
+                Country = user.Country,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                State = user.State,
+                ZipCode = user.ZipCode
+            };
+            return View(order);
         }
 
         [Authorize]
@@ -42,6 +59,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
             if (ModelState.IsValid)
             {
+                order.UserId = _userManager.GetUserId(HttpContext.User);
                 _orderRepository.CreateOrder(order);
                 _shoppingCart.ClearCart();
                 return RedirectToAction("CheckoutComplete");

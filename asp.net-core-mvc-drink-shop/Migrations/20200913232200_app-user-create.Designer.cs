@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using asp_net_core_mvc_drink_shop.Data;
@@ -9,9 +10,10 @@ using asp_net_core_mvc_drink_shop.Data;
 namespace asp_net_core_mvc_drink_shop.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200913232200_app-user-create")]
+    partial class appusercreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,17 +353,12 @@ namespace asp_net_core_mvc_drink_shop.Migrations
                         .HasColumnType("character varying(10)")
                         .HasMaxLength(10);
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("text");
-
                     b.Property<string>("ZipCode")
                         .IsRequired()
                         .HasColumnType("character varying(10)")
                         .HasMaxLength(10);
 
                     b.HasKey("OrderId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -475,13 +472,6 @@ namespace asp_net_core_mvc_drink_shop.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("asp_net_core_mvc_drink_shop.Data.Models.Order", b =>
-                {
-                    b.HasOne("Identity.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("asp_net_core_mvc_drink_shop.Data.Models.OrderDetail", b =>
