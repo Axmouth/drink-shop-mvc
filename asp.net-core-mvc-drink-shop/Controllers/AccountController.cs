@@ -31,12 +31,10 @@ namespace asp_net_core_mvc_drink_shop.Controllers
         public IActionResult Login(string returnUrl)
         {
             ViewBag.Title = "ASP.NET Drinks - Login";
+            returnUrl ??= Request.Headers["Referer"].ToString() ?? "/";
+
             if ((HttpContext.User != null) && HttpContext.User.Identity.IsAuthenticated)
             {
-                if (string.IsNullOrEmpty(returnUrl))
-                {
-                    returnUrl = "/";
-                }
                 return Redirect(returnUrl);
             }
             return View(new LoginViewModel()
@@ -81,12 +79,13 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
         }
 
-        public IActionResult Register()
+        public IActionResult Register(string returnUrl)
         {
+            returnUrl ??= Request.Headers["Referer"].ToString() ?? "/";
             ViewBag.Title = "ASP.NET Drinks - Register";
             if ((HttpContext.User != null) && HttpContext.User.Identity.IsAuthenticated)
             {
-                return Redirect("/");
+                return Redirect(returnUrl);
             }
             return View();
         }
@@ -123,11 +122,12 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout(string returnUrl)
         {
+            returnUrl ??= Request.Headers["Referer"].ToString() ?? "/";
             await _signInManager.SignOutAsync();
             ViewBag.Title = "ASP.NET Drinks - Logout";
-            return RedirectToAction("Index", "Home");
+            return Redirect(returnUrl);
         }
 
         [Authorize]
@@ -249,6 +249,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
                 }
 
             }
+            accountSettingsViewModel.UserName = user.UserName;
 
             return View(accountSettingsViewModel);
         }

@@ -6,6 +6,7 @@ using asp_net_core_mvc_drink_shop.Data.interfaces;
 using asp_net_core_mvc_drink_shop.Data.Models;
 using asp_net_core_mvc_drink_shop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 
 namespace asp_net_core_mvc_drink_shop.Controllers
 {
@@ -33,28 +34,30 @@ namespace asp_net_core_mvc_drink_shop.Controllers
             return View(sCVM);
         }
 
-        public RedirectToActionResult AddToShoppingCart(int drinkId)
+        public IActionResult AddToShoppingCart(int drinkId, string returnUrl)
         {
             var selectedDrink = _drinkRepository.Drinks.FirstOrDefault(p => p.DrinkId == drinkId);
+            returnUrl ??= Request.Headers["Referer"].ToString() ?? "/";
             ViewBag.Title = "ASP.NET Drinks - Add To Shopping Cart";
 
             if (selectedDrink != null)
             {
                 _shoppingCart.AddToCart(selectedDrink, 1);
             }
-            return RedirectToAction("Index");
+            return Redirect(returnUrl);
         }
 
-        public RedirectToActionResult RemoveFromShoppingCart(int drinkId)
+        public IActionResult RemoveFromShoppingCart(int drinkId, string returnUrl)
         {
             var selectedDrink = _drinkRepository.Drinks.FirstOrDefault(p => p.DrinkId == drinkId);
+            returnUrl ??= Request.Headers["Referer"].ToString() ?? "/";
             ViewBag.Title = "ASP.NET Drinks - Remove From Shopping Cart";
 
             if (selectedDrink != null)
             {
                 _shoppingCart.RemoveFromCart(selectedDrink);
             }
-            return RedirectToAction("Index");
+            return Redirect(returnUrl);
         }
     }
 }

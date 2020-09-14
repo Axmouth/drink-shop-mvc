@@ -9,6 +9,16 @@
                 <a asp-controller="Drink" asp-action="Details" asp-route-drinkId="@Model.DrinkId">@Model.Name</a>
             </h3>
             <p>@Model.ShortDescription</p>
+            <p>
+                @if (Model.InStock)
+                {
+                    <span class="text-success">In Stock</span>
+                }
+                else
+                {
+                    <span class="text-warning">Out of Stock</span>
+                }
+            </p>
         </div>
         <div class="add-to-cart">
             <p class="button">
