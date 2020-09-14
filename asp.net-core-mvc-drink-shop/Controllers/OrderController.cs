@@ -54,7 +54,7 @@ namespace asp_net_core_mvc_drink_shop.Controllers
 
             if (_shoppingCart.ShoppingCartItems.Count == 0)
             {
-                ModelState.AddModelError("", "Your cart is empty, add some drinks first!");
+                ModelState.AddModelError(string.Empty, "Your cart is empty, add some drinks first!");
             }
 
             if (ModelState.IsValid)
